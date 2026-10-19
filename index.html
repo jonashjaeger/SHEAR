@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#102f36">
+  <meta name="description" content="SHEAR — transparent archaeological wool and textile production modelling.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="SHEAR">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css?v=1.0.0">
+  <title>SHEAR — Wool production modeller</title>
+</head>
+<body>
+  <div id="updateNotice" class="update-notice" hidden>Updated version available <button id="updateButton" type="button">Reload SHEAR</button></div>
+  <header class="masthead">
+    <div class="wrap topbar">
+      <div class="brand"><div class="brandmark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 37L26 10l10 27H12Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M26 10v27M7 40h34" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></div><div><strong>SHEAR</strong><span>Wool & textile economies</span></div></div>
+      <span class="app-version">RESEARCH MODEL · v1.0</span>
+    </div>
+    <div class="wrap hero">
+      <div><span class="eyebrow">EXPERIMENTAL ARCHAEOLOGY · RESOURCE MODELLING</span><h1>From fleece<br>to <em>fleet.</em></h1><p>Explore the wool, animals and textile labour behind historical sail production. Every estimate starts with assumptions you can change.</p></div>
+      <svg class="hero-graphic" viewBox="0 0 350 250" aria-hidden="true"><path d="M153 15 L153 212" stroke="#c9a26c" stroke-width="3"/><path d="M152 21 L25 194 L150 194" fill="#e8dfcc"/><path d="M157 21 L305 194 L157 194" fill="#efe5cd"/><path d="M157 21 L305 194 L157 194" fill="none" stroke="#c5b38b" stroke-width="1"/><path d="M35 202 Q176 222 314 202 L283 224 Q174 243 67 222Z" fill="#9bb1a7"/><path d="M0 239 Q45 226 86 239 T175 239 T350 239" stroke="#86acac" stroke-width="2" fill="none"/><g stroke="#c9a26c" opacity=".65"><path d="M130 49 L45 191M116 68 L57 191M103 88 L69 191M91 107 L81 191M77 127 L92 191"/><path d="M168 42 L286 185M169 66 L274 185M169 89 L261 185M169 113 L245 185"/></g></svg>
+    </div>
+  </header>
+  <nav class="nav-wrap" aria-label="Main navigation"><div class="wrap navlinks"><button class="tab active" type="button" data-tab="model" aria-current="page">Model</button><button class="tab" type="button" data-tab="scenarios">Scenarios <span class="scenario-count" id="scenarioCount">0</span></button><button class="tab" type="button" data-tab="evidence">Evidence & methods</button></div></nav>
+  <main class="wrap main">
+    <section class="page" id="page-model">
+      <div class="section-heading"><div><span class="eyebrow eyebrow-dark">01 / THE MODEL</span><h2>Production assumptions</h2><p>Set a target, describe fleece processing, and estimate the number of annual wool harvests required.</p></div><button class="text-button" id="resetModel" type="button">Reset assumptions ↺</button></div>
+      <div class="workspace">
+        <div class="inputs">
+          <section class="panel"><div class="panel-title"><span class="step">A</span><div><h3>Textile demand</h3><p>What are we trying to produce?</p></div></div>
+            <div class="field-grid"><label>Area per sail <span>m²</span><input id="area" type="number" min="1" max="10000000" step="1" inputmode="decimal"></label><label>Number of sails <span>count</span><input id="sails" type="number" min="1" max="1000000" step="1" inputmode="numeric"></label></div>
+            <div class="field-grid"><label>Finished fabric mass <span>g/m²</span><input id="gsm" type="number" min="50" max="10000" step="25" inputmode="decimal"></label><label>Production horizon <span>years</span><input id="years" type="number" min="1" max="10000" step="1" inputmode="numeric"></label></div>
+            <p class="hint">Fabric mass is modelled, not a universally established Viking Age sailcloth weight.</p>
+          </section>
+          <section class="panel"><div class="panel-title"><span class="step">B</span><div><h3>Fleece to textile</h3><p>How much wool survives processing?</p></div></div>
+            <div class="field-grid"><label>Raw wool per sheep <span>kg / harvest</span><input id="fleece" type="number" min="0.05" max="20" step="0.05" inputmode="decimal"></label><label>Fibre selection retained <span>%</span><input id="selection" type="number" min="1" max="100" step="1" inputmode="decimal"></label></div>
+            <label>Processing & construction retained <span>%</span><input id="processing" type="number" min="1" max="100" step="1" inputmode="decimal"></label>
+            <div class="process-diagram"><div>Raw fleece <b id="fleeceValue">1.20 kg</b></div><span aria-hidden="true">→</span><div>Selected <b id="selectedValue">0.60 kg</b></div><span aria-hidden="true">→</span><div>In fabric <b id="usableValue">0.45 kg</b></div></div>
+            <p class="hint">These default yields are illustrative and calibrated to a reference scenario. They are not measured fleece yields for Viking Age sheep.</p>
+          </section>
+          <section class="panel"><div class="panel-title"><span class="step">C</span><div><h3>Flock & labour</h3><p>From wool-harvests to a working population.</p></div></div>
+            <div class="field-grid"><label>Productive proportion <span>% of flock</span><input id="productive" type="number" min="1" max="100" step="1" inputmode="decimal"></label><label>Wool allocated to sails <span>%</span><input id="allocation" type="number" min="1" max="100" step="1" inputmode="decimal"></label></div>
+            <label>Weaving labour intensity <span>hours/m²</span><input id="labour" type="number" min="0" max="10000" step="0.1" inputmode="decimal"></label>
+            <p class="hint">Standing-flock estimates assume one wool harvest per productive animal per year, a stable population, and equal contributions. Labour refers to weaving only, not all production tasks.</p>
+          </section>
+        </div>
+        <aside class="results" aria-live="polite">
+          <div class="result-card"><span class="overline">MODEL OUTPUT</span><span class="result-label">Required wool harvests</span><div class="hero-number" id="sheepYears">200<span>sheep-years</span></div><div class="result-divider"></div><div class="metric-pair"><div><span>Minimum standing flock</span><strong id="flock">286</strong></div><div><span>Finished textile mass</span><strong id="mass">90 kg</strong></div></div><div class="result-divider"></div><div class="metric-pair"><div><span>Raw wool required</span><strong id="rawMass">240 kg</strong></div><div><span>Estimated weaving time</span><strong id="hours">7,850 h</strong></div></div><div class="result-note">Estimates, not reconstructed historical census figures.</div></div>
+          <div class="comparison-card"><h3>Experimental comparison</h3><p>Ottar sail reconstruction, Viking Ship Museum: about 200 sheep for 90 m².</p><div class="compare-row"><span>Model</span><strong id="perArea">2.22 sheep/m²</strong></div><div class="bar"><span id="modelBar"></span></div><div class="compare-row"><span>Museum benchmark</span><strong>2.22 sheep/m²</strong></div><div class="bar muted"><span id="museumBar"></span></div><p id="benchmarkNote" class="benchmark-note">Similar at current assumptions; many combinations could give this result.</p></div>
+          <div class="actions"><button class="primary-button" type="button" id="saveScenario">Save this scenario</button><button class="secondary-button" type="button" id="downloadCsv">Export result CSV ↓</button></div>
+        </aside>
+      </div>
+      <div class="uncertainty-section"><div class="section-heading small"><div><span class="eyebrow eyebrow-dark">02 / ROBUSTNESS</span><h2>How certain is the estimate?</h2><p>Explore sensitivity to assumptions without claiming archaeological confidence intervals.</p></div></div>
+        <div class="uncertainty-layout"><div class="panel"><label for="uncertainty">Vary fleece yield, selection, processing and fabric mass by <strong id="uncertaintyLabel">±25%</strong></label><input type="range" id="uncertainty" min="0" max="50" step="5" aria-label="Assumption variation percentage"><p class="hint">Illustrative simulation: 3,000 independently sampled uniform draws around your values. This is a scenario range, not an inferential confidence interval.</p></div><div class="panel distribution"><span class="overline">SHEEP-YEAR SCENARIO RANGE</span><div class="range-labels"><div><span>5th percentile</span><strong id="p5">—</strong></div><div><span>Median</span><strong id="p50">—</strong></div><div><span>95th percentile</span><strong id="p95">—</strong></div></div><div class="range-track"><div id="rangeFill"></div><span id="rangeDot"></span></div><p class="hint">Numbers are recalculated when assumptions change.</p></div></div>
+      </div>
+    </section>
+    <section class="page" id="page-scenarios" hidden><div class="section-heading"><div><span class="eyebrow eyebrow-dark">03 / EXPERIMENTS</span><h2>Saved scenarios</h2><p>Store and compare alternative textile economies directly on your device.</p></div></div><div class="scenarios-controls"><button id="saveScenario2" class="primary-button">+ Save current model</button><button id="exportJson" class="secondary-button">Export JSON backup ↓</button><button id="importJsonButton" class="secondary-button">Import JSON</button><input id="importJson" type="file" accept=".json,application/json" hidden></div><p class="hint">Saved locally on this device. Export backups if you want to preserve or share your assumptions.</p><div id="scenariosList" class="scenario-list"></div></section>
+    <section class="page" id="page-evidence" hidden><div class="section-heading"><div><span class="eyebrow eyebrow-dark">04 / EVIDENCE & METHODS</span><h2>What SHEAR does — and doesn't — tell us</h2><p>A transparent modelling tool is only as defensible as its assumptions.</p></div></div>
+      <div class="evidence-grid"><article class="panel"><h3>1. Archaeological anchor</h3><p>The Viking Ship Museum reports approximately 200 Spelsau sheep supplied wool for the reconstruction of a 90 m² sail for <em>Ottar</em>, with a dry sail mass of 90 kg and 7,850 hours of weaving work.</p><a href="https://www.vikingeskibsmuseet.dk/en/professions/education/all-about-the-viking-ship/skibets-haandvaerkere/vaeveren" target="_blank" rel="noopener">Viking Ship Museum — The weaver ↗</a><p>The historical accuracy of a reconstructed sail, its fibre selection and production process remains a research question.</p></article>
+        <article class="panel"><h3>2. Other comparative evidence</h3><p>The Swedish History Museum gives an estimate of approximately 225 long-haired sheep for a sail of about 100 m². These are case-specific estimates, not biological constants.</p><a href="https://vikingar.historiska.se/objects.php?e=no&l=en&showcase=d03663d1-ae73-43e4-87e7-6e1daaff8094" target="_blank" rel="noopener">Swedish History Museum — Sail making ↗</a><p>Cloth construction and fabric properties also varied. Experimental sail research discusses differences in weave types, yarn and finishing.</p><a href="https://www.vikingeskibsmuseet.dk/en/professions/boatyard/experimental-archaeological-research/maritime-crafts/maritime-technology/wool-sailcloth" target="_blank" rel="noopener">Viking Ship Museum — Wool sailcloth ↗</a></article>
+        <article class="panel"><h3>3. Equations</h3><div class="formula">Fabric mass (kg) = sails × area × (g/m² ÷ 1000)</div><div class="formula">Usable kg/harvest = raw fleece × sorting retention × process retention</div><div class="formula">Sheep-years = fabric mass ÷ usable kg/harvest</div><div class="formula">Minimum standing flock = sheep-years ÷ (years × productive share × sail allocation)</div><p>Population output is a hypothetical steady-state requirement, not an inferred Viking Age herd size.</p></article>
+        <article class="panel"><h3>4. Essential caveats</h3><ul><li>The sheep-year is one animal's annual wool-harvest equivalent, not an individual sheep counted archaeologically.</li><li>Different fleece types produce different usable fibre yields; historical values remain uncertain.</li><li>Not all harvested wool would be suitable or available for sailcloth.</li><li>Final sail mass may include treatments and materials beyond woven wool; it is not necessarily fabric mass.</li><li>Labour intensity does not scale perfectly with sail area and is specific to techniques and organisation.</li><li>Terrain, fodder supply, sex/age composition and flock turnover are not modelled.</li></ul></article>
+      </div>
+      <div class="panel methodology"><h3>What could make this publishable?</h3><p>Parameter distributions grounded in archaeological and experimental data; distinct fleece-type models; textile specification and processing losses; demographic structure; seasonal availability and labour constraints; comparison against independent historical reconstructions. SHEAR is a starting point for sensitivity analysis, not a replacement for those datasets.</p></div>
+    </section>
+  </main>
+  <footer><div class="wrap"><span>SHEAR · Prototype v1.0</span><span>Local-first · No account · All assumptions editable</span></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="nameDialog"><form method="dialog"><h3>Save scenario</h3><p>Give these assumptions a name so you can compare them later.</p><label>Scenario name<input id="scenarioName" maxlength="80" placeholder="e.g. Dense twill, 100 m²" required></label><div class="dialog-actions"><button value="cancel" type="submit" class="secondary-button">Cancel</button><button id="confirmSave" value="save" type="submit" class="primary-button">Save scenario</button></div></form></dialog>
+  <script src="./app.js?v=1.0.0" defer></script>
+</body>
+</html>
